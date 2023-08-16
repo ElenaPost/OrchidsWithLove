@@ -1,0 +1,16 @@
+﻿@model OrchidsWithLove_.Models.Flower
+
+<div>
+    <div>
+        @Html.Raw("<img src='data:image/jpeg;base64,"
+                                        + Convert.ToBase64String(Model.Image) + "\' />")
+    </div>
+    <h4>@Html.DisplayFor(Model => Model.Name)</h4>
+    <p>
+        @Html.DisplayFor(Model => Model.Description)
+    </p>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

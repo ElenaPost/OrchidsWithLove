@@ -1,0 +1,89 @@
+﻿@model OrchidsWithLove_.Models.Flower
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+
+@using (Html.BeginForm("EditFlower", "Admin", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form", @autocomplete = "off" }))
+{
+<fieldset>
+
+    @Html.HiddenFor(m => m.Id)
+
+    @Html.HiddenFor(m => m.Image)
+
+    <div class="form-group row">
+        <div class="col-lg-2 col-md-4 col-6">
+            @Html.Raw("<img style='width:100px; height:120px;' class=\"img - fluid\" src=\"data:image/jpeg;base64,"
+                                        + Convert.ToBase64String(@Model.Image) + "\" />")
+            <h4>Главное изображение</h4>
+        </div>
+
+        <div class="col-md-8">
+            <label class="control-label col-md-5 pl-md-0" for="mainImage">Изменить главное изображение</label>
+            <input type="file" id="mainImage" class="mainImage" name="uploadImage" title="Изменить" />
+        </div>
+    </div>
+
+    <div class="form-group row">
+        @foreach (var item in ViewBag.FlowersPhotos)
+        {
+            <div class="col-md-4 col-6 thumb containerImg">
+                <a data-fancybox="gallery" href="data:image/jpeg;base64,@Convert.ToBase64String(item.Image)">
+                    @Html.Raw("<img class=\"img - fluid\" src=\"data:image/jpeg;base64,"
+                                            + Convert.ToBase64String(item.Image) + "\" />")
+                </a>
+                <button class="btn btn-delete" value="@item.Id" type="button">x</button>
+            </div>
+        }
+    </div>
+
+    <div class="form-group row">
+        <div class="col-md-8">
+            <input type="file" name="uploadImage" multiple="multiple" />
+        </div>
+        <label class="control-label col-md-4 pl-md-0">Добавить изображения цветка</label>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-md-8">
+            @Html.EditorFor(m => m.Name, new { htmlAttributes = new { @class = "first-field required form-control form-control-sm mr-md-0", placeholder = "Название" } })
+            <span class="required-field">Заполнение обязательно</span>
+        </div>
+        <label class="control-label col-md-4 pl-md-0">Название</label>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-md-8">
+            @Html.EditorFor(m => m.Description, new { htmlAttributes = new { @class = "required form-control form-control-sm", placeholder = "Описание" } })
+            <span class="required-field">Заполнение обязательно</span>
+        </div>
+        <label class="control-label col-md-4 pl-md-0">Описание</label>
+    </div>
+
+    <div class="modal-footer row pr-md-0">
+        <div class="col-md-offset-6 col-md-6 px-md-0">
+            <button class="btn btn-secondary btn-sm" name="action" value="cancel">Отмена</button>
+            <button type="submit" class="btn btn-primary btn-sm">Сохранить</button>
+        </div>
+    </div>
+</fieldset>
+}
+
+<script>
+    $(".mainImage").change(function () {
+        var mainImg = new File([this.files[0]], 'main.jpg', { type: this.files[0].type });
+        var dt = new DataTransfer();
+        dt.items.add(mainImg);
+        this.files = dt.files;
+    });
+
+    $(".btn-delete").click(function () {
+        $.ajax({
+            type: "POST",
+            url: "DeleteFlowersPhoto",
+            data: { id: this.value },
+            dataType: "json"
+        });
+    });
+</script>
+
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>

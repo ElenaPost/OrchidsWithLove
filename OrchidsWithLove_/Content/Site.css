@@ -1,0 +1,102 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 20px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+.thumb img {
+    -webkit-filter: grayscale(0);
+    filter: none;
+    border-radius: 5px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 5px;
+    width: 200px;
+    height: 270px;
+}
+
+.thumb img:hover {
+    -webkit-filter: grayscale(1);
+    filter: grayscale(1);
+}
+
+.thumb {
+    padding: 20px 5px 10px 10px;
+    float: left;
+}
+
+#wrapped {
+    width: 20%;
+}
+
+.row {
+    overflow: hidden;
+    margin-top: 20px;
+}
+
+.navbar {
+    background-color: purple;
+    margin-bottom: 20px;
+}
+
+.btn {
+    background-color: palevioletred;
+}
+
+.btn:hover {
+    background-color: deeppink;
+}
+
+.containerImg {
+    position: relative;
+    width: 205px;
+}
+
+.containerImg img {
+    height: auto;
+}
+
+.containerImg .btn {
+    position: absolute;
+    opacity: 50%;
+    left: 85%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    background-color: #555;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+    .containerImg .btn-delete {
+        top: 18%;
+    }
+
+.containerImg .btn-edit {
+    top: 72%;
+}
+
+.containerImg .btn:hover {
+    background-color: black;
+}

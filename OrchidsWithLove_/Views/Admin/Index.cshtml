@@ -1,0 +1,99 @@
+﻿@{
+    ViewBag.Title = "Цветы";
+}
+
+@model IEnumerable<OrchidsWithLove_.Models.Flower>
+
+<div id="modDialog" class="modal fade">
+    <div id="dialogContent" class="modal-dialog"></div>
+</div>
+
+<div class="form-group row pt-5">
+    <div class="col-md-3 ml-md-auto">@Html.ActionLink("Добавить цветок", "AddFlower", null, null, new { @class = "showDialogContent btn btn-primary btn-sm", role = "button" })</div>
+</div>
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-lg-2 col-md-4 col-6 thumb containerImg">
+            <a href="ShowFlower/@item.Id">
+                @Html.Raw("<img class=\"img - fluid\" src=\"data:image/jpeg;base64,"
+                                        + Convert.ToBase64String(item.Image) + "\" />")
+            </a>
+            <button class="btn btn-delete" value="@item.Id">x</button>
+            <button class="btn btn-edit" value="@item.Id">edit</button>
+            <h4>@item.Name</h4>
+        </div>
+    }
+</div>
+
+    @section scripts
+{
+        <script type="text/javascript">
+
+            $(".btn-delete").click(function () {
+                $.ajax({
+                    type: "POST",
+                    url: "Admin/DeleteFlower",
+                    data: { flowerId: this.value },
+                    dataType: "json"
+                });
+            });
+
+            $(".btn-edit").click(function () {
+                $.ajax({
+                    type: "GET",
+                    url: "Admin/EditFlower",
+                    data: { flowerId: this.value },
+                    dataType: "json"
+                });
+            });
+
+            $(function () {
+                $.ajaxSetup({ cache: false });
+                $(".showDialogContent").click(function (e) {
+
+                    e.preventDefault();
+                    $.get(this.href, function (data) {
+                        $('#dialogContent').html(data);
+                        $('#modDialog').modal('show');
+                    });
+                });
+
+                $("#modDialog").on('shown.bs.modal', function () {
+                    $(this).find('.first-field').focus;
+
+                    function highlightRequired(input) {
+                        if (input.hasClass("required-empty") && input.val() != "") {
+                            input.removeClass("required-empty");
+                            input.next().removeClass("required-empty");
+                        }
+                    }
+
+                    var form = $("button:contains('Добавить')").parents("form:first");
+
+                    $('input.required').change(function (event) {
+                        highlightRequired($(this));
+                    });
+
+                    $("button:contains('Добавить')").on("click", function (e) {
+                        e.preventDefault();
+                        var inp = form.find("input.required");
+                        var emptyInput = false;
+                        for (var i = 0; i < inp.length; i++) {
+                            var inpCurr = $(inp[i]);
+                            if (inpCurr.val() == "") {
+                                inpCurr.addClass("required-empty");
+                                inpCurr.next().addClass("required-empty");
+                                emptyInput = true;
+                            }
+                        }
+
+                        if (!emptyInput) {
+                            form.submit();
+                        }
+                    });
+                });
+            });
+        </script>
+    }

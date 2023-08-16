@@ -1,0 +1,23 @@
+﻿@{
+    ViewBag.Title = Model.Name;
+}
+
+@model OrchidsWithLove_.Models.Flower
+
+<div class="row">
+    @foreach (var item in ViewBag.FlowerPhotos)
+    {
+        <div class="col-lg-2 col-md-4 col-6 thumb">
+            <a data-fancybox="gallery" href="data:image/jpeg;base64,@Convert.ToBase64String(item)">
+                @Html.Raw("<img style='width:100px; height:120px;' class=\"img - fluid\" src=\"data:image/jpeg;base64,"
+                                        + Convert.ToBase64String(item) + "\" />")
+            </a>
+        </div>
+    }
+</div>
+
+<h4>@Model.Name</h4>
+<p>@Model.Description</p>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
